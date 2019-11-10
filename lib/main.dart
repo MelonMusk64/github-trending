@@ -12,13 +12,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  List data;
+
   Future<String> getData() async {
     var response = await http.get(
-        "https://github-trending-api.now.sh/repositories?language=&since=daily"
-    );
+        "https://github-trending-api.now.sh/repositories?language=&since=daily");
 
-    List data = json.decode(response.body);
-    print(data/*[0]["name"]*/);
+    this.setState(() {
+      data = json.decode(response.body);
+    });
+
+    print(data[0]["name"]);
+  }
+
+  @override
+  void initState() {
+    this.getData();
   }
 
   @override
@@ -28,13 +37,15 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           title: Text("GitHub Trending"),
+          backgroundColor: Color(0xFFFF7C00),
         ),
-        body: Center(
-          child: RaisedButton(
-            child: Text("Get data"),
-            onPressed: getData,
-          ),
-        ),
+        body: new ListView.builder(
+            itemCount: data == null ? 0 : data.length,
+            itemBuilder: (BuildContext context, int index) {
+              return new Card(
+                child: Text(data[index]["name"]),
+              );
+            }),
       ),
     );
   }
