@@ -42,8 +42,26 @@ class _MyAppState extends State<MyApp> {
         body: new ListView.builder(
             itemCount: data == null ? 0 : data.length,
             itemBuilder: (BuildContext context, int index) {
-              return new Card(
-                child: Text(data[index]["name"]),
+              return Card(
+                child: Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.all(10),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        data[index]["name"],
+                        style: DefaultTextStyle.of(context)
+                            .style
+                            .apply(fontSizeFactor: 1.8),
+                        textAlign: TextAlign.left,
+                      ),
+                      Text(
+                        data[index]["description"],
+                        textAlign: TextAlign.left,
+                      )
+                    ],
+                  ),
+                ),
               );
             }),
       ),
