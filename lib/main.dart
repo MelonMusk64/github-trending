@@ -1,21 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
+import 'package:github_trending/card.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:url_launcher/url_launcher.dart';
+import 'dart:async';
 
-class ReposData {
-  final String author;
-  final String name;
-  final String avatar;
-  final String url;
-  final String description;
-  final int stars;
-  final int forks;
-
-  ReposData(this.author, this.name, this.avatar, this.url, this.description,
-      this.stars, this.forks);
-}
+import './reposdata.dart';
 
 void main() => runApp(MyApp());
 
@@ -54,24 +43,7 @@ class _MyAppState extends State<MyApp> {
             future: reposDetails(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Column(
-                      children: <Widget>[
-                        Card(
-                          child: ListTile(
-                            leading: Image.network(snapshot.data[index].avatar),
-                            title: Text(snapshot.data[index].name),
-                            subtitle: Text(snapshot.data[index].description),
-                            isThreeLine: true,
-                            onTap: () => launch(snapshot.data[index].url),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
+                return RepoCard(snapshot);
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               }
