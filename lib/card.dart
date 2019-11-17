@@ -7,7 +7,7 @@ class RepoCard extends StatelessWidget {
   RepoCard(this.snapshot);
 
   Widget build(BuildContext context) {
-   return ListView.builder(
+    return ListView.builder(
       itemCount: snapshot.data.length,
       itemBuilder: (BuildContext context, int index) {
         return Column(
@@ -18,6 +18,7 @@ class RepoCard extends StatelessWidget {
                 title: Text(snapshot.data[index].name),
                 subtitle: Text(snapshot.data[index].description),
                 isThreeLine: true,
+                trailing: Text(snapshot.data[index].author),
                 onTap: () => launch(snapshot.data[index].url),
               ),
             ),
